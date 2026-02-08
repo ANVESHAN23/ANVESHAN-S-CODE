@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Library Book Tracker</title>
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      margin: 30px auto;
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    li {
+      list-style: none;
+      margin: 8px;
+      padding: 8px;
+      background: #eee;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>📚 Library Book Tracker</h2>
+
+    <input id="bookInput" placeholder="Enter book name">
+    <button onclick="addBook()">Add Book</button>
+
+    <ul id="bookList"></ul>
+  </div>
+
+<script>
+  let books = [];
+
+  function addBook() {
+    const input = document.getElementById("bookInput");
+    const bookName = input.value;
+
+    if (bookName === "") return;
+
+    books.push({ name: bookName, borrowed: false });
+    input.value = "";
+    displayBooks();
+  }
+
+  function toggleBorrow(index) {
+    books[index].borrowed = !books[index].borrowed;
+    displayBooks();
+  }
+
+  function deleteBook(index) {
+    books.splice(index, 1);
+    displayBooks();
+  }
+
+  function displayBooks() {
+    const list = document.getElementById("bookList");
+    list.innerHTML = "";
+
+    books.forEach((book, index) => {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        ${book.name} - 
+        ${book.borrowed ? "Borrowed" : "Available"}
+        <br>
+        <button onclick="toggleBorrow(${index})">
+          Borrow/Return
+        </button>
+        <button onclick="deleteBook(${index})">
+          Delete
+        </button>
+      `;
+
+      list.appendChild(li);
+    });
+  }
+</script>
+
+</body>
+</html>
